@@ -1,0 +1,27 @@
+{
+  "name": "frontend-nanodegree-mobile-portfolio",
+  "version": "1.0.0",
+  "description": "This is a my version of the Udacity nanodegree mobile portfolio project. All the npm dependencies for my version of this project are included in this file.",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fboydc/frontend-nanodegree-mobile-portfolio.git"
+  },
+  "keywords": [
+    "performance",
+    "enhancing"
+  ],
+  "author": "Felipe Boyd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fboydc/frontend-nanodegree-mobile-portfolio/issues"
+  },
+  "homepage": "https://github.com/fboydc/frontend-nanodegree-mobile-portfolio#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-image-resize": "^0.13.0"
+  }
+}
