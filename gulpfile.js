@@ -14,19 +14,28 @@ var connect = require('gulp-connect');
 
 
 gulp.task('resizePizzeria', function() {
-	return gulp.src('app/views/images/pizzeria.jpg')
+	return gulp.src('dist/images/pizzeria.jpg')
 		.pipe(imageResize({
-			width: 100,
-			height: 61,
+			width: 360,
+			height: 270,
 			crop: true,
 			upscale: false
 		}))
-		.pipe(gulp.dest('app/img/thumbnails'));
+		.pipe(gulp.dest('dist/images/'));
 });
 
-gulp.task('webserver', function(){
-	connect.server();
-})
+gulp.task('compressHeavyImages', function(){
+	return gulp.src('app/views/images/**/*.+(png|jpg)')
+		.pipe(imagemin())
+		.pipe(gulp.dest('dist/images'))
+});
+
+
+gulp.task('optimizeImages', function(callback){
+	runSequence('compressHeavyImages','resizePizzeria')
+});
+
+
 
 
 
