@@ -142,6 +142,8 @@ pizzaIngredients.crusts = [
   "Stuffed Crust"
 ];
 
+
+
 // Name generator pulled from http://saturdaykid.com/usernames/generator.html
 // Capitalizes first letter of each word
 String.prototype.capitalize = function() {
@@ -283,7 +285,11 @@ function getNoun(y) {
 }
 
 var adjectives = ["dark", "color", "whimsical", "shiny", "noisy", "apocalyptic", "insulting", "praise", "scientific"];  // types of adjectives for pizza titles
-var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];                        // types of nouns for pizza titles
+var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];
+//Used for creating random names in pizzas.
+var basicLeftList = [];
+var bgpizzas = [];
+//var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
 // Generates random numbers for getAdj and getNoun functions and returns a new pizza name
 function generator(adj, noun) {
@@ -387,7 +393,14 @@ var pizzaElementGenerator = function(i) {
   pizzaDescriptionContainer.style.width="65%";
 
   pizzaName = document.createElement("h4");
+  /*
+  randomNameWorker.addEventListener('message', function(e){
+      pizzaName.innerHTML = e.data;
+  });
+
+  randomNameWorker.postMessage('name');*/
   pizzaName.innerHTML = randomName();
+
   pizzaDescriptionContainer.appendChild(pizzaName);
 
   ul = document.createElement("ul");
@@ -448,15 +461,34 @@ var resizePizzas = function(size) {
   }
 
   // Iterates through pizza elements on the page and changes their widths
-  function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+
+  function getSize(size){
+
+    switch(size){
+      case "1":
+        return 25;
+        break;
+      case "2":
+        return  33;
+        break;
+      case "3":
+        return 50;
+        break;
+    }
+
+  }
+
+  function changePizzaSizes(vpwidth) {
+
+    var randomPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+
+    for (var i = 0; i < randomPizzaContainers.length; i++) {
+      randomPizzaContainers[i].style.width = vpwidth + "%";
     }
   }
 
-  changePizzaSizes(size);
+
+  changePizzaSizes(getSize(size));
 
   // User Timing API is awesome
   window.performance.mark("mark_end_resize");
@@ -468,9 +500,26 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-for (var i = 2; i < 100; i++) {
+/*for (var i = 2; i < 100; i++) {
   var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
+}*/
+
+// creates pizzas
+createOptimizedPizzas();
+
+/*****************************
+*
+* DESCRIPTION:
+*
+******************************/
+function createOptimizedPizzas(){
+  var pizzasFragment = document.createDocumentFragment();
+  for (var i = 2; i < 100; i++) {
+    //var pizzasDiv = document.getElementById("randomPizzas");
+    pizzasFragment.appendChild(pizzaElementGenerator(i));
+  }
+  document.getElementById("randomPizzas").appendChild(pizzasFragment);
 }
 
 // User Timing API again. These measurements tell you how long it took to generate the initial pizzas
@@ -502,13 +551,22 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
+
+
+  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
-    // document.body.scrollTop is no longer supported in Chrome.
-    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
     var phase = Math.sin((scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+//----------------IMPROVEMENT: indexed array access, much better than running a layout/recalculate styles cycle ------------------------//
+    items[i].style.left = basicLeftList[i] + 100 * phase + 'px';
   }
 
+
+  /*
+  *  This operation is expensive. Too many layout operations, and
+  *  little benefit added.
+  *
+  */
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
@@ -526,15 +584,21 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  var elements = document.createDocumentFragment();
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+
+    basicLeftList.push((i % cols) * s);
+    bgpizzas.push(elem);
+    elements.appendChild(elem);
+
   }
+  document.querySelector("#movingPizzas1").appendChild(elements);
   updatePositions();
 });
+
