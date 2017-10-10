@@ -25,6 +25,14 @@
     "gulp-connect": "^5.0.0",
     "gulp-image-resize": "^0.13.0",
     "gulp-imagemin": "^3.4.0",
+    "gulp-minify-inline": "^1.0.0",
+    "gulp-uglify": "^3.0.0",
+    "imagemin-jpeg-recompress": "^5.1.0",
+    "imagemin-mozjpeg": "^6.0.0",
+    "imagemin-pngquant": "^5.0.1",
     "run-sequence": "^2.2.0"
+  },
+  "dependencies": {
+    "gulp-cssnano": "^2.1.2"
   }
 }

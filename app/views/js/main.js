@@ -18,6 +18,24 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
+
+
+/****************************************************************
+*
+* EDITED BY: FELIPE BOYD
+* COMMENTS:
+*
+* The following functions are optimized/changed:
+* 1. changePizzaSizes(vpwidth)
+* 2. createOptimizedPizzas()
+* 3. updatePositions()
+* 4. event - DOMContentLoaded
+*
+* The following function are addded:
+* 1.
+*
+*
+*****************************************************************/
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -287,8 +305,10 @@ function getNoun(y) {
 var adjectives = ["dark", "color", "whimsical", "shiny", "noisy", "apocalyptic", "insulting", "praise", "scientific"];  // types of adjectives for pizza titles
 var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "places", "scifi"];
 //Used for creating random names in pizzas.
+/* OPTIMIZATION: ARRAY TO STORE ALL BASIC LEFT PROPERTY FOR EVERY BG PIZZA IMAGE */
 var basicLeftList = [];
 var bgpizzas = [];
+
 //var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
 // Generates random numbers for getAdj and getNoun functions and returns a new pizza name
@@ -365,6 +385,14 @@ var makeRandomPizza = function() {
 };
 
 // returns a DOM element for each pizza
+ /*******************************************************
+  * OPTIMIZATIONS: NONE
+  * COMMENTS: Still unsure about using a web worker for
+  * randomName and makeRandomPizza(). However, using it
+  * inside this function will only hinder performance,
+  * as we are creating aseparate thread for each index
+  * in the for loop!
+  ******************************************************/
 var pizzaElementGenerator = function(i) {
   var pizzaContainer,             // contains pizza title, image and list of ingredients
       pizzaImageContainer,        // contains the pizza image
@@ -393,12 +421,8 @@ var pizzaElementGenerator = function(i) {
   pizzaDescriptionContainer.style.width="65%";
 
   pizzaName = document.createElement("h4");
-  /*
-  randomNameWorker.addEventListener('message', function(e){
-      pizzaName.innerHTML = e.data;
-  });
 
-  randomNameWorker.postMessage('name');*/
+
   pizzaName.innerHTML = randomName();
 
   pizzaDescriptionContainer.appendChild(pizzaName);
@@ -412,10 +436,17 @@ var pizzaElementGenerator = function(i) {
 };
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
+
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
   // Changes the value for the size of the pizza above the slider
+
+  /*********************************
+  * OPTIMIZATIONS: NONE
+  * COMMENTS: Runs in constant time.
+  *
+  *********************************/
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
@@ -434,7 +465,14 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
+  /**************************************************************
+  * OPTIMIZATIONS: NONE
+  * DESCRIPTION: This function is not needed.
+  * We can just use % instead of px for
+  * pizza values. Also, we save ourselves
+  * some unnecesary layout operations.
+  * Ahem(document.querySelector("#randomPizzas").offsetWidth).
+  ***************************************************************/
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
@@ -460,8 +498,12 @@ var resizePizzas = function(size) {
     return dx;
   }
 
-  // Iterates through pizza elements on the page and changes their widths
-
+   /**************************************************************
+  * OPTIMIZATIONS: NONE
+  * COMMENTS: This is a helper method used in changePizzaSizes;
+  * runs in constant time.
+  *
+  ***************************************************************/
   function getSize(size){
 
     switch(size){
@@ -477,6 +519,30 @@ var resizePizzas = function(size) {
     }
 
   }
+
+ /*****************************************************************
+  * OPTIMIZATIONS: This function had a FLS problem. In order to prevent
+  * this, it was necessary to:
+  *
+  * 1. Remove the call to determineDx. This is where the getSizes()
+  *    comes in. DetermineDx creates an unnecesary layout operation,
+  *    through every iteration of the for loop.
+  *
+  * 2. document.querySelectorAll('.randomPizzaContainer') is an expensive
+  *    operation. It should only be done once/not in every iteration of the
+  *    resizing loop.
+  *
+  * 3. instead of reading the offsetWidth property every time from
+  *    .randomPizzaContainer(layout) and then performing recalculate styles
+  *    to update .randomPizzaContainer, we can just use getSize() by
+  *    calling it once to get the % value for our pizzas.
+  *
+  * DESCRIPTION: This is a helper method used in changePizzaSizes;
+  * runs in constant time.
+  *
+  * PARAMETERS: % value of the pizza width.
+  *
+  ***************************************************************/
 
   function changePizzaSizes(vpwidth) {
 
@@ -499,25 +565,23 @@ var resizePizzas = function(size) {
 
 window.performance.mark("mark_start_generating"); // collect timing data
 
-// This for-loop actually creates and appends all of the pizzas when the page loads
-/*for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
-  pizzasDiv.appendChild(pizzaElementGenerator(i));
-}*/
+
 
 // creates pizzas
 createOptimizedPizzas();
 
-/*****************************
+/************************************************************
+* OPTIMIZATIONS: No need to call .getElementById on every
+* iteration of the loop. Moved outside of the for loop.
 *
-* DESCRIPTION:
-*
-******************************/
+* COMMENTS: Moved code inside an enclosing function. Makes
+* code look more neat.
+***********************************************************/
 function createOptimizedPizzas(){
   var pizzasFragment = document.createDocumentFragment();
   for (var i = 2; i < 100; i++) {
-    //var pizzasDiv = document.getElementById("randomPizzas");
     pizzasFragment.appendChild(pizzaElementGenerator(i));
+
   }
   document.getElementById("randomPizzas").appendChild(pizzasFragment);
 }
@@ -546,27 +610,43 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+
+
+
+/************************************************************
+* OPTIMIZATIONS:
+*
+* 1. Again, scrollTop initalization does not need to be inside
+*     the loop.Unnecesary layout operation performed every iteration.
+*
+* 2. As this is a "hot" function, we can just store all .mover
+*    elements in an array called bgpizzas. This array is only created
+*    once, and we can access it instead of performing DOM lookups
+*    + creating + accessing every time we run this function.
+*
+* 3. Same thing with basicLeft property of every pizza image.
+*    why perform a read/write cycle, when we can just have
+*    a global scoped array with the basicLeft property for every pizza,
+*    loop once through everything and that's it.
+*
+*
+***********************************************************/
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
-  var items = document.querySelectorAll('.mover');
-
-
+  /*   Get background pizzas from an indexed array, instead of querying the DOM every time
+       the user scrolls.
+     */
   var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-  for (var i = 0; i < items.length; i++) {
+  for (var i = 0; i < bgpizzas.length; i++) {
 
     var phase = Math.sin((scrollTop / 1250) + (i % 5));
 //----------------IMPROVEMENT: indexed array access, much better than running a layout/recalculate styles cycle ------------------------//
-    items[i].style.left = basicLeftList[i] + 100 * phase + 'px';
+    //items[i].style.left = basicLeftList[i] + 100 * phase + 'px';
+    bgpizzas[i].style.left = basicLeftList[i] + 100 * phase + 'px';
   }
 
 
-  /*
-  *  This operation is expensive. Too many layout operations, and
-  *  little benefit added.
-  *
-  */
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
@@ -577,10 +657,27 @@ function updatePositions() {
   }
 }
 
-// runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+/*******************************************
+* OPTIMIZATIONS: This should run within a
+* requestAnimationFrame, as we are updating
+* layout several times while we are scrolling
+*******************************************/
+window.addEventListener('scroll', function(){
+  requestAnimationFrame(updatePositions);
+});
 
 // Generates the sliding pizzas when the page loads.
+/********************************************************
+* OPTIMIZATIONS:
+*  1. In order to prevent read/write cycle,
+*  basicLeft positions for each bg pizza is kept in a separate
+*  global scoped array.
+*
+*  2. Likewise, each bg pizza element is also stored in a global scoped array.
+*  By doing this during load time, we are not forced to perform layout
+*  operations for every bgpizza element when scrolling on
+*  the page.
+*********************************************************/
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
@@ -588,11 +685,10 @@ document.addEventListener('DOMContentLoaded', function() {
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "../../dist/images/pizza.png";
+    elem.src = "../images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-
     basicLeftList.push((i % cols) * s);
     bgpizzas.push(elem);
     elements.appendChild(elem);
