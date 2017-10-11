@@ -16,12 +16,12 @@ var uglify = require('gulp-uglify');
 
 var cssnano = require('gulp-cssnano');
 
-
+var minifyInline = require('gulp-minify-inline');
 
 //Package to run gulp task sequentially, one after the other.
 var runSequence = require('run-sequence');
 
-var minifyInline = require('gulp-minify-inline');
+
 
 gulp.task('minify-inline', function() {
 	return gulp.src('app/**/*.html')

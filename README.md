@@ -1,55 +1,150 @@
-## Website Performance Optimization portfolio project
+# Website Performance Optimization portfolio project
+----------------------------------------------------------
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
+This project shows different optimizations peformed to the
+udacity's [frontend-nanodegree-mobile-portfolio](https://github.com/udacity/frontend-nanodegree-mobile-portfolio).
 
-To get started, check out the repository and inspect the code.
 
-### Getting started
+## PREFACE - READ THIS FIRST
+This project has two versions: the optimized/compressed/minified version, and the
+optimized/non-compressed/non-minified version. Please see File Structure section
+for more information. The project work as is, and if you wish to see the final
+product, it's all under the dist directory (optimized/compressed/minified version).
 
-#### Part 1: Optimize PageSpeed Insights score for index.html
+**NOTE: This project uses Gulp as a build tool, along with other plugins. Please
+see the installation section for more information. In fact make sure you install
+Gulp and get familiarized with it first.This is only necessary if you wish to build
+the project yourself, that is.**
 
-Some useful tips to help you get started:
+If you wish to see all the improvements made to the original project in a readable
+format, then you can see the project under the app directory. In the end, both
+folders contain the exact same html,css, and js. The only difference is that the
+dist directory contains compressed images and minified css and js. All css and html
+are inlined, therefor the only js and css files included are non-render/non-parser
+blocking. If you wish to see the documented changes done to main.js, please see the
+main.js file under the app/views/js.
 
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
+## FILE STRUCTURE - IMPORTANT!
+It is very important that the following files are included in your project.
+They must follow the parent/child relationship outlined, in order for the
+build command to work:
 
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
+Your-project-name
+|-- **app**/
+|-----**css**/
+|--------print.css
+|-----**img**/
+|--------2048.png
+|--------cam_be_like.jpg
+|--------mobilewebdev.jpg
+|--------profilepic.jpg
+|--------**thumbnails**/
+|------------2048.jpg
+|------------mobile.jpg
+|------------webperf.jpg
+|------**js**/
+|		+perfmatter.js
+|------**views**/
+|--------**images**/
+|------------pizza.png
+|------------pizzeria.jpg
+|--------pizza.html -- inlined: main.js, bootstrap-grid.css, style.css
+|----index.html -- inlined: style.css
+|----project-2048.html
+|----project-mobile.html
+|----project-webperf.html
 
-1. Open a browser and visit localhost:8080
-1. Download and install [ngrok](https://ngrok.com/) to the top-level of your project directory to make your local server accessible remotely.
 
-  ``` bash
-  $> cd /path/to/your-project-folder
-  $> ./ngrok http 8080
-  ```
+After running the build command, your dist directory should look something like this:
 
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
+Your-project-name
+|-- **dist**/
+|-----**css**/
+|--------print.css - minified
+|-----**img**/
+|--------2048.png - compressed
+|--------cam_be_like.jpg - compressed
+|--------mobilewebdev.jpg - compressed
+|--------profilepic.jpg - compressed
+|--------**thumbnails**/
+|------------2048.jpg - compressed
+|------------mobile.jpg - compressed
+|------------webperf.jpg - compressed
+|------------pizzeria.jpg - new file created
+|------**js**/
+|		+perfmatter.js - minified
+|------**views**/
+|--------**images**/
+|------------pizza.png - compressed
+|------------pizzeria.jpg - compressed and resized
+|--------pizza.html
+|----index.html
+|----project-2048.html
+|----project-mobile.html
+|----project-webperf.html
 
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+## REQUIREMENTS/DEPENDENCIES
+* npm
+* Gulp Task Manager
+* gulp-image-resize
+* gulp-imagemin
+* imagemin-mozjpeg
+* imagemin-pngquant
+* gulp-uglify
+* gulp-cssnano
+* gulp-minify-inline
+* run-sequence
 
-#### Part 2: Optimize Frames per Second in pizza.html
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+## INSTALLATION INSTRUCTIONS
 
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
+*(In case you are wondering, npm installation instructions are provided to you at the Gulp Task Manager tutorial).*
 
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
+### Gulp Task Manager
+This project uses **[Gulp Task Manager](https://gulpjs.com/)**. For instructions on how to use/install gulp, please go **[HERE](https://css-tricks.com/gulp-for-beginners/)**.
 
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
+This project uses **Gulp** in conjunction with the
+following **npm** dependencies:
+
+
+### gulp-image-resize
+A library for resizing images. Go [here](https://www.npmjs.com/package/gulp-image-resize) for usage and installation instructions.
+
+
+### gulp-imagemin
+A library used for image compression. Although it is
+possible to achieve lossless compresion without any third party libraries, the compression level is not what we want for the images. Go [here](https://www.npmjs.com/package/gulp-imagemin) for usage and installation instructions.
+
+### imagemin-mozjpeg
+A library used in conjuction with gulp-imagemin. This allows for lossy compression of **jpg** images.
+Go [here](https://www.npmjs.com/package/imagemin-mozjpeg) for usage and installation instructions.
+
+### imagemin-pngquant
+A library used in conjuction with gulp-imagemin.
+This allows for loosy compression of **png** images.
+Go [here](https://www.npmjs.com/package/imagemin-pngquant) for usage and installation instructions.
+
+### gulp-uglify
+A library used for minification of external **js** files.
+Go [here](https://www.npmjs.com/package/gulp-uglify) for usage and installation instructions.
+
+### gulp-cssnano
+A library used for the minification of external **css** files. Go [here](https://www.npmjs.com/package/gulp-cssnano) for usage and installation instructions.
+
+### gulp-minify-inline
+A library used for minification of inlined css and js
+in html files.Go [here](https://www.npmjs.com/package/gulp-minify-inline) for usage and installation instructions.
+
+### run-sequence
+A library used for running sequential gulp tasks.
+Go [here](https://www.npmjs.com/package/run-sequence)for usage and installation instructions.
+
+
+
+
+
+
+
+
+

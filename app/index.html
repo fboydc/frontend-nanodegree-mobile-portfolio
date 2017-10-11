@@ -7,7 +7,7 @@
     <meta name="author" content=" FILL ME IN ">
     <title>Cameron Pittman: Portfolio</title>
 
-    <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
+    <!-- CSS INLINED IN ORDER TO AVOID RENDER BLOCKING JS REQUESTS -->
     <style>
       html
       {
@@ -169,28 +169,28 @@
       <div class="content">
         <ul>
           <li>
-            <!-- Replace with locally stored image/uneeded request-->
+            <!-- Replace with locally stored image -->
             <img src="img/thumbnails/2048.jpg">
             <a href="project-2048.html">Build Your Own 2048!</a>
             <p>I made my own version of 2048. How cool is that!?</p>
           </li>
 
           <li>
-             <!-- Replace with locally stored image/uneeded request-->
+             <!-- Replace with locally stored image -->
             <img src="img/thumbnails/webperf.jpg">
             <a href="project-webperf.html">Website Performance Optimization</a>
             <p>Hey... this class looks familiar.</p>
           </li>
 
           <li>
-             <!-- Replace with locally stored image/uneeded request-->
+             <!-- Replace with locally stored image -->
             <img src="img/thumbnails/mobile.jpg">
             <a href="project-mobile.html">Mobile Web Development</a>
             <p>Making mobile apps isn't so hard after all.</p>
           </li>
 
           <li>
-             <!-- Replace with locally stored image/uneeded request-->
+             <!-- Replace with locally stored image -->
             <img src="img/thumbnails/pizzeria.jpg">
             <a href="views/pizza.html">Cam's Pizzeria</a>
             <p>Who wants a performant pizza?</p>
@@ -212,6 +212,7 @@
       ga('send', 'pageview');
   </script>
   <!-- Can be loaded ASYNC, since this doesn't affect above the fold content-->
+  <!-- perfmatters.js is minified as well -->
     <script async src="https://www.google-analytics.com/analytics.js"></script>
     <script async src="js/perfmatters.js"></script>
 </html>

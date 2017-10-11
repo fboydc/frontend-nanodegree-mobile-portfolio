@@ -25,14 +25,12 @@ cameron *at* udacity *dot* com
 * EDITED BY: FELIPE BOYD
 * COMMENTS:
 *
-* The following functions are optimized/changed:
+* The following are optimized/changed/new-added functions:
 * 1. changePizzaSizes(vpwidth)
 * 2. createOptimizedPizzas()
 * 3. updatePositions()
 * 4. event - DOMContentLoaded
 *
-* The following function are addded:
-* 1.
 *
 *
 *****************************************************************/
