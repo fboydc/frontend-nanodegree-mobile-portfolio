@@ -30,70 +30,58 @@ They must follow the parent/child relationship outlined, in order for the
 build command to work:
 
 Your-project-name
-|-- **app**/
-|-----**css**/
-|--------print.css
-|-----**img**/
-|--------2048.png
-|--------cam_be_like.jpg
-|--------mobilewebdev.jpg
-|--------profilepic.jpg
-|--------**thumbnails**/
-|------------2048.jpg
-|------------mobile.jpg
-|------------webperf.jpg
-|------**js**/
-|		+perfmatter.js
-|------**views**/
-|--------**images**/
-|------------pizza.png
-|------------pizzeria.jpg
-|--------pizza.html -- inlined: main.js, bootstrap-grid.css, style.css
-|----index.html -- inlined: style.css
-|----project-2048.html
-|----project-mobile.html
-|----project-webperf.html
+**app**/
+  - **css**/
+    - print.css
+  - **img**/
+	- 2048.png
+	- cam_be_like.jpg
+	- mobilewebdev.jpg
+	- profilepic.jpg
+    - **thumbnails**/
+      - 2048.jpg
+      - mobile.jpg
+      - webperf.jpg
+  - **js**/
+	- perfmatter.js
+  - **views**/
+    - **images**/
+      - pizza.png
+	  - pizzeria.jpg
+    - pizza.html -- inlined: main.js, bootstrap-grid.css, style.css
+  - index.html -- inlined: style.css
+  - project-2048.html -- inlined: style.css
+  - project-mobile.html -- inlined: style.css
+  - project-webperf.html -- inlined: style.css
 
 
-After running the build command, your dist directory should look something like this:
+### After running the build command, your dist directory should look something like this:
 
 Your-project-name
-|-- **dist**/
-|-----**css**/
-|--------print.css - minified
-|-----**img**/
-|--------2048.png - compressed
-|--------cam_be_like.jpg - compressed
-|--------mobilewebdev.jpg - compressed
-|--------profilepic.jpg - compressed
-|--------**thumbnails**/
-|------------2048.jpg - compressed
-|------------mobile.jpg - compressed
-|------------webperf.jpg - compressed
-|------------pizzeria.jpg - new file created
-|------**js**/
-|		+perfmatter.js - minified
-|------**views**/
-|--------**images**/
-|------------pizza.png - compressed
-|------------pizzeria.jpg - compressed and resized
-|--------pizza.html
-|----index.html
-|----project-2048.html
-|----project-mobile.html
-|----project-webperf.html
-
-## REQUIREMENTS/DEPENDENCIES
-* npm
-* Gulp Task Manager
-* gulp-image-resize
-* gulp-imagemin
-* imagemin-mozjpeg
-* imagemin-pngquant
-* gulp-uglify
-* gulp-cssnano
-* gulp-minify-inline
-* run-sequence
+**dist**/
+  - **css**/
+    - print.css - minified
+  - **img**/
+	- 2048.png - compressed
+	- cam_be_like.jpg - compressed
+	- mobilewebdev.jpg - compressed
+	- profilepic.jpg - compressed
+    - **thumbnails**/
+      - 2048.jpg - compressed
+      - mobile.jpg - compressed
+      - webperf.jpg - compressed
+      - pizzeria.jpg - new file created
+  - **js**/
+	- perfmatter.js
+  - **views**/
+    - **images**/
+      - pizza.png
+	  - pizzeria.jpg
+    - pizza.html -- inlined: main.js, bootstrap-grid.css, style.css
+  - index.html -- minified inline style.css
+  - project-2048.html -- minified inline style.css
+  - project-mobile.html -- minified inline style.css
+  - project-webperf.html -- minified inline style.css
 
 
 
@@ -139,6 +127,9 @@ in html files.Go [here](https://www.npmjs.com/package/gulp-minify-inline) for us
 ### run-sequence
 A library used for running sequential gulp tasks.
 Go [here](https://www.npmjs.com/package/run-sequence)for usage and installation instructions.
+
+
+## USAGE INSTRUCTIONS
 
 
 
