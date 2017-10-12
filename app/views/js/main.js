@@ -507,13 +507,10 @@ var resizePizzas = function(size) {
     switch(size){
       case "1":
         return 25;
-        break;
       case "2":
         return  33;
-        break;
       case "3":
         return 50;
-        break;
     }
 
   }

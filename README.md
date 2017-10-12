@@ -30,7 +30,7 @@ They must follow the parent/child relationship outlined, in order for the
 build command to work:
 
 Your-project-name
-**app**/
+- **app**/
   - **css**/
     - print.css
   - **img**/
@@ -53,12 +53,19 @@ Your-project-name
   - project-2048.html -- inlined: style.css
   - project-mobile.html -- inlined: style.css
   - project-webperf.html -- inlined: style.css
+- **node_modules**/
+- gulpfile.js
+- package.json
 
 
 ### After running the build command, your dist directory should look something like this:
 
 Your-project-name
-**dist**/
+- **app**/
+- .
+- .
+- .
+- **dist**/
   - **css**/
     - print.css - minified
   - **img**/
@@ -82,12 +89,14 @@ Your-project-name
   - project-2048.html -- minified inline style.css
   - project-mobile.html -- minified inline style.css
   - project-webperf.html -- minified inline style.css
+- **node_modules**/
+- gulpfile.js
+- package.json
 
 
+## BUILD INSTRUCTIONS - DEPENDENCIES
 
-## INSTALLATION INSTRUCTIONS
-
-*(In case you are wondering, npm installation instructions are provided to you at the Gulp Task Manager tutorial).*
+*(In case you are wondering, npm installation instructions are provided to you in the Gulp Task Manager tutorial).*
 
 ### Gulp Task Manager
 This project uses **[Gulp Task Manager](https://gulpjs.com/)**. For instructions on how to use/install gulp, please go **[HERE](https://css-tricks.com/gulp-for-beginners/)**.
@@ -130,6 +139,31 @@ Go [here](https://www.npmjs.com/package/run-sequence)for usage and installation 
 
 
 ## USAGE INSTRUCTIONS
+
+### I just wanna see your page score at Google PageInsights:
+You see the hosted version of this project [here](https://fboydc.github.io/frontend-nanodegree-mobile-portfolio/dist/index.html).
+
+To analyze/test the website, just go [here](https://developers.google.com/speed/pagespeed/insights/), paste
+these two URLs and analyze them separately:
+
+1. https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Ffboydc.github.io%2Ffrontend-nanodegree-mobile-portfolio%2Fdist%2Findex.html
+
+2. https://fboydc.github.io/frontend-nanodegree-mobile-portfolio/dist/views/pizza.html
+
+
+### I wanna create the minified/optimized/compressed version of the project myself, please:
+Awesome! first read the build instructions, go to the Gulp Task Manager tutorial; that will get
+you started with NPM and Gulp. Next, just go to each of the links provided to install the
+remaining dependencies, and you are all set. After that, you will have a node_modules directory,
+a package.json, and a gulpfile.js file under you root folder. Final step, user your terminal
+to navigate to the root directory of your project and type "gulp build". This will create a
+dist folder containing the minified/optimized/compressed version. Keep in mind that in contrast
+to the master repo hosted by udacity, I have inlined all the ATF css and js. This step is needed
+for the best possible optimization.
+
+Cheers :)
+
+
 
 
 
