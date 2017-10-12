@@ -1,30 +1,15 @@
-/*
-Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
-jank-free at 60 frames per second.
-
-There are two major issues in this code that lead to sub-60fps performance. Can
-you spot and fix both?
-
-
-Built into the code, you'll find a few instances of the User Timing API
-(window.performance), which will be console.log()ing frame rate data into the
-browser console. To learn more about User Timing API, check out:
-http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
-Creator:
-Cameron Pittman, Udacity Course Developer
-cameron *at* udacity *dot* com
-*/
-
-// As you may have realized, this website randomly generates pizzas.
-// Here are arrays of all possible pizza ingredients.
-
 
 /****************************************************************
 *
 * EDITED BY: FELIPE BOYD
-* COMMENTS:
+* DESCRIPTION: This file contains all the functionality contained in
+* pizza.html. It will populate the background and the container with
+* pizza images, move them when scrolling, and provide the change-size
+* functionality.
+
+* DATE OF COMPLETION: 10/12/2017
 *
+* OPTIMIZATIONS DONE TO ORIGINAL CODE:
 * The following are optimized/changed/new-added functions:
 * 1. changePizzaSizes(vpwidth)
 * 2. createOptimizedPizzas()
@@ -32,8 +17,9 @@ cameron *at* udacity *dot* com
 * 4. event - DOMContentLoaded
 *
 *
-*
 *****************************************************************/
+
+
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -166,7 +152,13 @@ String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-// Pulls adjective out of array using random number sent from generator
+/********************************************************************
+FUNCTION NAME: getAdj
+PARAMETERS: String
+RETURNS: array <String>
+COMMENTS: helper function used in generator. This will
+return an array based on the string argument passed.
+*********************************************************************/
 function getAdj(x){
   switch(x) {
     case "dark":
@@ -230,7 +222,15 @@ function getAdj(x){
   }
 }
 
+
 // Pulls noun out of array using random number sent from generator
+/********************************************************************
+FUNCTION NAME: getNoun
+PARAMETERS: String
+RETURNS: array <String>
+COMMENTS: helper function used in generator. This will
+return an array based on the string argument passed.
+*********************************************************************/
 function getNoun(y) {
   switch(y) {
     case "animals":
@@ -306,10 +306,17 @@ var nouns = ["animals", "everyday", "fantasy", "gross", "horror", "jewelry", "pl
 /* OPTIMIZATION: ARRAY TO STORE ALL BASIC LEFT PROPERTY FOR EVERY BG PIZZA IMAGE */
 var basicLeftList = [];
 var bgpizzas = [];
+var screenHeight = window.screen.height;
 
-//var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
-// Generates random numbers for getAdj and getNoun functions and returns a new pizza name
+/********************************************************************
+FUNCTION NAME: generator
+PARAMETERS: String, String
+RETURNS: String
+COMMENTS: helper function used in randomName. A String is produced
+from the concatenation of two randomly selected string values return from
+the getAdj and getNoun functions.
+*********************************************************************/
 function generator(adj, noun) {
   var adjectives = getAdj(adj);
   var nouns = getNoun(noun);
@@ -319,44 +326,104 @@ function generator(adj, noun) {
   return name;
 }
 
-// Chooses random adjective and random noun
+/********************************************************************
+FUNCTION NAME: randomName
+PARAMETERS: NONE
+RETURNS: String
+COMMENTS: Creates two random numbers between 0 and adjective and size.length.
+This two numbers will be used by the generator function to compute and return
+a new string.
+*********************************************************************/
 function randomName() {
   var randomNumberAdj = parseInt(Math.random() * adjectives.length);
   var randomNumberNoun = parseInt(Math.random() * nouns.length);
   return generator(adjectives[randomNumberAdj], nouns[randomNumberNoun]);
 }
 
-// These functions return a string of a random ingredient from each respective category of ingredients.
+/********************************************************************
+OBJECT FUNCTION NAME: selectRandomMeat
+PARAMETERS: NONE
+RETURNS: String
+COMMENTS: Returns a random string from the meats array property of
+the pizzaIngredients object.
+*********************************************************************/
 var selectRandomMeat = function() {
   var randomMeat = pizzaIngredients.meats[Math.floor((Math.random() * pizzaIngredients.meats.length))];
   return randomMeat;
 };
+
+/********************************************************************
+OBJECT FUNCTION NAME: selectRandomNonMeat
+PARAMETERS: NONE
+RETURNS: String
+COMMENTS: Returns a random string from the nonMeats array property of
+the pizzaIngredients object.
+*********************************************************************/
 
 var selectRandomNonMeat = function() {
   var randomNonMeat = pizzaIngredients.nonMeats[Math.floor((Math.random() * pizzaIngredients.nonMeats.length))];
   return randomNonMeat;
 };
 
+/********************************************************************
+OBJECT FUNCTION NAME: selectRandomCheese
+PARAMETERS: NONE
+RETURNS: String
+COMMENTS: Returns a random string from the cheeses array property of
+the pizzaIngredients object.
+*********************************************************************/
+
 var selectRandomCheese = function() {
   var randomCheese = pizzaIngredients.cheeses[Math.floor((Math.random() * pizzaIngredients.cheeses.length))];
   return randomCheese;
 };
+
+/********************************************************************
+OBJECT FUNCTION NAME: selectRandomSauce
+PARAMETERS: NONE
+RETURNS: String
+COMMENTS: Returns a random string from the sauce array property of
+the pizzaIngredients object.
+*********************************************************************/
 
 var selectRandomSauce = function() {
   var randomSauce = pizzaIngredients.sauces[Math.floor((Math.random() * pizzaIngredients.sauces.length))];
   return randomSauce;
 };
 
+/********************************************************************
+OBJECT FUNCTION NAME: selectRandomCrust
+PARAMETERS: NONE
+RETURNS: String
+COMMENTS: Returns a random string from the crust array property of
+the pizzaIngredients object.
+*********************************************************************/
+
 var selectRandomCrust = function() {
   var randomCrust = pizzaIngredients.crusts[Math.floor((Math.random() * pizzaIngredients.crusts.length))];
   return randomCrust;
 };
+
+/********************************************************************
+OBJECT FUNCTION NAME: ingredientItemizer
+PARAMETERS: String
+RETURNS: String
+COMMENTS: Helper function used in makeRandomPizza; this will format
+items its argument inside li tags.
+*********************************************************************/
 
 var ingredientItemizer = function(string) {
   return "<li>" + string + "</li>";
 };
 
 // Returns a string with random pizza ingredients nested inside <li> tags
+/********************************************************************
+OBJECT FUNCTION NAME: makeRandomPizza
+PARAMETERS: NONE
+RETURNS: String
+COMMENTS: This function creates the list of ingredients that will go inside
+a  pizza container. This function is used in the pizzaElementGenerator function.
+*********************************************************************/
 var makeRandomPizza = function() {
   var pizza = "";
 
@@ -382,10 +449,18 @@ var makeRandomPizza = function() {
   return pizza;
 };
 
-// returns a DOM element for each pizza
+
  /*******************************************************
-  * OPTIMIZATIONS: NONE
-  * COMMENTS: Still unsure about using a web worker for
+  * OBJECT FUNCTION NAME: pizzaElementGenerator
+  * PARAMETERS: Integer
+  * RETURNS: String
+  * COMMENTS: This function generates the html for each pizza
+  * entry; that is a container div and child elements containing
+  * all the html formatted information of the newly generated pizza.
+  * This function runs as many times as specified in the function
+  * createOptimizedPizzas.
+  *
+  * POSSIBLE IMPROVEMENTS: Still unsure about using a web worker for
   * randomName and makeRandomPizza(). However, using it
   * inside this function will only hinder performance,
   * as we are creating aseparate thread for each index
@@ -410,7 +485,7 @@ var pizzaElementGenerator = function(i) {
   pizzaContainer.id = "pizza" + i;                // gives each pizza element a unique id
   pizzaImageContainer.style.width="35%";
 
-  pizzaImage.src = "../images/pizza.png";
+  pizzaImage.src = "images/pizza.png";
   pizzaImage.classList.add("img-responsive");
   pizzaImageContainer.appendChild(pizzaImage);
   pizzaContainer.appendChild(pizzaImageContainer);
@@ -434,37 +509,40 @@ var pizzaElementGenerator = function(i) {
 };
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
-
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
   // Changes the value for the size of the pizza above the slider
 
   /*********************************
-  * OPTIMIZATIONS: NONE
-  * COMMENTS: Runs in constant time.
+  * FUNCTION NAME: changeSliderLabel
+  * PARAMETERS: Integer
+  * RETURNS: NOTHING
+  * COMMENTS: This function changes the text inside the element
+  * #pizzaSize whenever its arguments is equal to one of the three
+  * specified values: 1, 2, or 3.
   *
   *********************************/
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById("pizzaSize").innerHTML = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById("pizzaSize").innerHTML = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById("pizzaSize").innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
     }
   }
 
+  //called when the user interacts with pizza the slider.
   changeSliderLabel(size);
 
   /**************************************************************
-  * OPTIMIZATIONS: NONE
   * DESCRIPTION: This function is not needed.
   * We can just use % instead of px for
   * pizza values. Also, we save ourselves
@@ -497,9 +575,12 @@ var resizePizzas = function(size) {
   }
 
    /**************************************************************
-  * OPTIMIZATIONS: NONE
+  * FUNCTION NAME: getSize
+  * PARAMETERS: Integer
+  * RETURNS: Integer
   * COMMENTS: This is a helper method used in changePizzaSizes;
-  * runs in constant time.
+  * It will return the integer value, which represents the %
+  * value used in changePizzaSizes.
   *
   ***************************************************************/
   function getSize(size){
@@ -516,6 +597,13 @@ var resizePizzas = function(size) {
   }
 
  /*****************************************************************
+  * FUNCTION NAME: changePizzaSizes
+  * PARAMETERS: Integer
+  * RETURNS: NONE
+  * DESCRIPTION: Changes the % value of the pizzas when the user interacts
+  * with the slider.
+  *
+  * runs in constant time.
   * OPTIMIZATIONS: This function had a FLS problem. In order to prevent
   * this, it was necessary to:
   *
@@ -532,18 +620,14 @@ var resizePizzas = function(size) {
   *    to update .randomPizzaContainer, we can just use getSize() by
   *    calling it once to get the % value for our pizzas.
   *
-  * DESCRIPTION: This is a helper method used in changePizzaSizes;
-  * runs in constant time.
-  *
-  * PARAMETERS: % value of the pizza width.
   *
   ***************************************************************/
 
   function changePizzaSizes(vpwidth) {
 
-    var randomPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+    var randomPizzaContainers = document.getElementsByClassName("randomPizzaContainer");
 
-    for (var i = 0; i < randomPizzaContainers.length; i++) {
+    for (var i = 0, totalContainers = randomPizzaContainers.length; i < totalContainers; i++) {
       randomPizzaContainers[i].style.width = vpwidth + "%";
     }
   }
@@ -566,11 +650,15 @@ window.performance.mark("mark_start_generating"); // collect timing data
 createOptimizedPizzas();
 
 /************************************************************
+* FUNCTION NAME: createOptimizedPizzas
+* PARAMETERS: none
+* RETURNS: none
+* COMMENTS: Creates 100 pizza containers and appends them to the
+* DOM.
+*
 * OPTIMIZATIONS: No need to call .getElementById on every
 * iteration of the loop. Moved outside of the for loop.
 *
-* COMMENTS: Moved code inside an enclosing function. Makes
-* code look more neat.
 ***********************************************************/
 function createOptimizedPizzas(){
   var pizzasFragment = document.createDocumentFragment();
@@ -591,7 +679,15 @@ console.log("Time to generate pizzas on load: " + timeToGenerate[0].duration + "
 // Used by updatePositions() to decide when to log the average time per frame
 var frame = 0;
 
-// Logs the average amount of time per 10 frames needed to move the sliding background pizzas on scroll.
+
+/************************************************************
+* FUNCTION NAME: logAverageFrame
+* PARAMETERS: array <entries>
+* RETURNS: none
+* COMMENTS: Logs the average amount of time per 10 frames needed to move the sliding
+* background pizzas on scroll.
+*
+***********************************************************/
 function logAverageFrame(times) {   // times is the array of User Timing measurements from updatePositions()
   var numberOfEntries = times.length;
   var sum = 0;
@@ -609,6 +705,12 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 
 /************************************************************
+* FUNCTION NAME: updatePositions
+* PARAMETERS: NONE
+* RETURNS: NOTHING
+* DESCRIPTION: sets/changes the position of each pizza in the background, based
+* on the scrolling distance of the viewport.
+*
 * OPTIMIZATIONS:
 *
 * 1. Again, scrollTop initalization does not need to be inside
@@ -626,12 +728,11 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 *
 *
 ***********************************************************/
+
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-  /*   Get background pizzas from an indexed array, instead of querying the DOM every time
-       the user scrolls.
-     */
+
   var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   for (var i = 0; i < bgpizzas.length; i++) {
 
@@ -663,6 +764,8 @@ window.addEventListener('scroll', function(){
 
 // Generates the sliding pizzas when the page loads.
 /********************************************************
+* COMMENTS: Loads all the pizza images in the background,
+* and positions them accordingly.
 * OPTIMIZATIONS:
 *  1. In order to prevent read/write cycle,
 *  basicLeft positions for each bg pizza is kept in a separate
@@ -676,11 +779,14 @@ window.addEventListener('scroll', function(){
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  var rows = screenHeight/s;
+  var totalPizzas = rows*cols;
+  //console.log("Total Pizzas: "+totalPizzas);
   var elements = document.createDocumentFragment();
-  for (var i = 0; i < 200; i++) {
-    var elem = document.createElement('img');
+  for (var i = 0, elem; i < totalPizzas; i++) {
+    elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "../images/pizza.png";
+    elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
@@ -689,7 +795,6 @@ document.addEventListener('DOMContentLoaded', function() {
     elements.appendChild(elem);
 
   }
-  document.querySelector("#movingPizzas1").appendChild(elements);
+  document.getElementById("movingPizzas1").appendChild(elements);
   updatePositions();
 });
-
