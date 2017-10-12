@@ -161,7 +161,7 @@ dist folder containing the minified/optimized/compressed version. Keep in mind t
 to the master repo hosted by udacity, I have inlined all the ATF css and js. This step is needed
 for the best possible optimization.
 
-Cheers :)
+Cheers :)!
 
 
 
