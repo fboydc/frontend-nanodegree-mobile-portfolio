@@ -7,14 +7,14 @@ udacity's [frontend-nanodegree-mobile-portfolio](https://github.com/udacity/fron
 
 ## PREFACE - READ THIS FIRST
 This project has two versions: the optimized/compressed/minified version, and the
-optimized/non-compressed/non-minified version. Please see File Structure section
-for more information. The project work as is, and if you wish to see the final
+optimized/non-compressed/non-minified version; please see File Structure section
+for more information. The project works as is, and if you wish to see the final
 product, it's all under the dist directory (optimized/compressed/minified version).
 
 **NOTE: This project uses Gulp as a build tool, along with other plugins. Please
 see the installation section for more information. In fact make sure you install
-Gulp and get familiarized with it first.This is only necessary if you wish to build
-the project yourself, that is.**
+Gulp and get familiarized with it first. This is only necessary if you wish to build
+the project yourself**
 
 If you wish to see all the improvements made to the original project in a readable
 format, then you can see the project under the app directory. In the end, both
@@ -58,7 +58,7 @@ Your-project-name
 - package.json
 
 
-### After running the build command, your dist directory should look something like this:
+### After running the build command, your file structure should look something like this:
 
 Your-project-name
 - **app**/
@@ -119,7 +119,7 @@ Go [here](https://www.npmjs.com/package/imagemin-mozjpeg) for usage and installa
 
 ### imagemin-pngquant
 A library used in conjuction with gulp-imagemin.
-This allows for loosy compression of **png** images.
+This allows for lossy compression of **png** images.
 Go [here](https://www.npmjs.com/package/imagemin-pngquant) for usage and installation instructions.
 
 ### gulp-uglify
@@ -141,10 +141,10 @@ Go [here](https://www.npmjs.com/package/run-sequence)for usage and installation 
 ## USAGE INSTRUCTIONS
 
 ### I just wanna see your page score at Google PageInsights:
-You see the hosted version of this project [here](https://fboydc.github.io/frontend-nanodegree-mobile-portfolio/dist/index.html).
+You can see the hosted version of this project [here](https://fboydc.github.io/frontend-nanodegree-mobile-portfolio/dist/index.html).
 
 To analyze/test the website, just go [here](https://developers.google.com/speed/pagespeed/insights/), paste
-these two URLs and analyze them separately:
+these two URLs and analyze them independently:
 
 1. https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Ffboydc.github.io%2Ffrontend-nanodegree-mobile-portfolio%2Fdist%2Findex.html
 
@@ -152,7 +152,7 @@ these two URLs and analyze them separately:
 
 
 ### I wanna create the minified/optimized/compressed version of the project myself, please:
-Awesome! first read the build instructions, go to the Gulp Task Manager tutorial; that will get
+Awesome! first read the build instructions and go to the Gulp Task Manager tutorial; that will get
 you started with NPM and Gulp. Next, just go to each of the links provided to install the
 remaining dependencies, and you are all set. After that, you will have a node_modules directory,
 a package.json, and a gulpfile.js file under you root folder. Final step, user your terminal
